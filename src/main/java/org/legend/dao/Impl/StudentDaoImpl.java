@@ -5,7 +5,9 @@ import org.legend.entity.Student;
 import org.springframework.stereotype.Repository;
 
 /*
- * <bean id="studentDao" class="org.legend.dao.impl.StudentDaoImpl"></bean>
+ * 相当于：<bean id="studentDao" class="org.legend.dao.impl.StudentDaoImpl"></bean>
+ *
+ * testAnnotationProperty():    无需容器文件中定义<bean>
  */
 @Repository("studentDao")
 public class StudentDaoImpl implements IStudentDao{

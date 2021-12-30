@@ -16,8 +16,10 @@
        https://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/cache
        http://www.springframework.org/schema/cache/spring-cache.xsd"
-    default-autowire="constructor"
+
 >
+<!--放上面头内default-autowire="constructor"-->
+
 <!--  课程一：整个配置文件：spring ioc容器  -->
 <!--    因此，该文件中产生的所有对象，被spring放入了一个称之为spring ioc容器的地方-->
 <!--    id：唯一标识符 class: 指定类型-->
@@ -55,7 +57,7 @@
 <!--        <property name="age" value="34"></property>-->
 <!--    </bean>-->
 
-    <bean id="course" class="org.legend.entity.Course">
+<!--    <bean id="course" class="org.legend.entity.Course">-->
     <!-- 1.set方式注入：
             1.1 一定要有无参构造器（首先反射调无参构造方法）其实就是通过容器调用了 xxx.setXxx(),完成属性的赋值。
             IOC容器赋值：
@@ -63,9 +65,9 @@
                             2.如果是对象类型，ref="需要引用的id值"，
                             因此实现了对象与对象之间的依赖关系
     -->
-        <property name="courseName" value="java"></property>
-        <property name="courseHour" value="200"></property>
-        <property name="teacher" ref="teacher"></property>
+<!--        <property name="courseName" value="java"></property>-->
+<!--        <property name="courseHour" value="200"></property>-->
+<!--        <property name="teacher" ref="teacher"></property>-->
 
     <!-- 2.构造方法注入：（有参构造器就不能setter方式！）
            2.1 只要被依赖的bean有带参构造方法
@@ -94,7 +96,7 @@
     <!--   补充：区别参数值类型,Teacher两个属性分别独立两个构造方法     -->
 <!--    <bean id="teacher" class="org.legend.entity.Teacher">-->
 <!--        <constructor-arg name="age" value="34"></constructor-arg>   -->
-    </bean>
+<!--    </bean>-->
     <!--  5.集合类型注入：          -->
     <bean id="collectionDemo" class="org.legend.entity.AllCollectionType">
         <!--  通过set方式赋值-->
@@ -186,7 +188,7 @@
         并且该ioc容器中恰好有一个bean的id也叫teacher；
         6.3
             6.3.1 byName：自动寻找：其他bean的id值=该Course类的属性名
-            6.3.2 byType：其他bean的类型class是否与该Course类的ref属性一致；（注意，此种方式必须满足：当前Ioc容器中只能有一个Bean满足条件）
+            6.3.2 byType：其他bean的类型class是否与该Course类的ref属性一致(可以没有有参构造方法)；（注意，此种方式必须满足：当前Ioc容器中只能有一个Bean满足条件）
             6.3.3 constructor：本质与byType一样，其他bean的类型(class)是否与该Course类的构造方法参数的类型一致。
         6.4 可以在头文件中一次性将该ioc容器所有bean，统一设置成自动装配
             6.4.1 default-autowire="constructor"
@@ -219,9 +221,9 @@
 <!--            <value>z&lt;xs</value>-->
 <!--        </property>-->
         <!-- 3.b -->
-        <property name="name">
-            <value type="java.lang.String">z<![CDATA[>]]>xs</value>
-        </property>
+<!--        <property name="name">-->
+<!--            <value type="java.lang.String">z<![CDATA[>]]>xs</value>-->
+<!--        </property>-->
 <!--        <constructor-arg name="name">-->
 <!--            <value type="java.lang.String">x<![CDATA[>]]>xs</value>-->
 <!--        </constructor-arg>-->
@@ -244,9 +246,9 @@
 
 
         <!--  6.4 (头文件中一次性)自动装配  -->
-<!--        <property name="name">-->
-<!--            <value type="java.lang.String">对应default-autowire为byName自动注入的老师</value>-->
-<!--        </property>-->
+        <property name="name">
+            <value type="java.lang.String">被自动注入的老师</value>
+        </property>
 <!--        <property name="name">-->
 <!--            <value type="java.lang.String">对应default-autowire改为byType自动注入的老师</value>-->
 <!--        </property>-->
@@ -258,6 +260,7 @@
 <!--    <bean id="course" class="org.legend.entity.Course" autowire="byName">-->
 <!--        <property name="courseName" value="java"></property>-->
 <!--        <property name="courseHour" value="200"></property>-->
+<!--        &lt;!&ndash;  靠autowire="byName"自动注入teacher对象      &ndash;&gt;-->
 <!--    </bean>-->
 <!--    <bean id="course" class="org.legend.entity.Course" autowire="byType">-->
 <!--        <property name="courseName" value="java"></property>-->
@@ -271,10 +274,10 @@
 <!--        <property name="courseHour" value="200"></property>-->
 <!--    </bean>-->
         <!--  6.4 (头文件中一次性)自动装配  -->
-<!--        <bean id="course" class="org.legend.entity.Course">-->
-<!--            <property name="courseName" value="java"></property>-->
-<!--            <property name="courseHour" value="200"></property>-->
-<!--        </bean>-->
+        <bean id="course" class="org.legend.entity.Course">
+            <property name="courseName" value="java"></property>
+            <property name="courseHour" value="200"></property>
+        </bean>
         <!-- 6.5 配置扫描器 -->
 <!--        <context:component-scan base-package="org.legend.dao.Impl, org.legend.service.Impl"/>-->
 
@@ -300,26 +303,26 @@
 -->
     <!-- 2.1 -->
     <!-- 1.增加对事务的支持，指定具体的事务  -->
-<!--    <tx:annotation-driven transaction-manager="txManager"/>-->
-<!--    &lt;!&ndash;  2.配置(数据库事务)管理器txManager，且指定数据源&ndash;&gt;-->
-<!--    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
-<!--        <property name="dataSource" ref="dataSource"></property>-->
-<!--    </bean>-->
-<!--    &lt;!&ndash; 3.配置数据库相关, 从连接池获取数据源 &ndash;&gt;-->
-<!--    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">-->
-<!--        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>-->
-<!--        <property name="url" value="jdbc:mysql://localhost:3306/netctoss?useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;characterEncoding=utf-8&amp;autoReconnect=true"/>-->
-<!--        <property name="username" value="root"></property>-->
-<!--        <property name="password" value="root"></property>-->
-<!--        <property name="maxTotal" value="10"></property>-->
-<!--        <property name="maxIdle" value="6"/>-->
-<!--        <property name="maxConnLifetimeMillis" value="60000"/>-->
-<!--    </bean>-->
-<!--    &lt;!&ndash; 配置数据库相关-事务 &ndash;&gt;-->
-<!--    <bean id="studentDao" class="org.legend.dao.Impl.StudentDaoImpl"></bean>-->
-<!--    <bean id="studentService" class="org.legend.service.Impl.StudentServiceImpl">-->
-<!--        <property name="studentDao" ref="studentDao"></property>-->
-<!--    </bean>-->
+    <tx:annotation-driven transaction-manager="txManager"/>
+    <!--  2.配置(数据库事务)管理器txManager，且指定数据源-->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <!-- 3.配置数据库相关, 从连接池获取数据源 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/netctoss?useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;characterEncoding=utf-8&amp;autoReconnect=true"/>
+        <property name="username" value="root"></property>
+        <property name="password" value="root"></property>
+        <property name="maxTotal" value="10"></property>
+        <property name="maxIdle" value="6"/>
+        <property name="maxConnLifetimeMillis" value="60000"/>
+    </bean>
+    <!-- 配置数据库相关-事务 testAnnotationBean(): 无需@Repository("studentDao"),普通股的扫描bean-->
+    <bean id="studentDao" class="org.legend.dao.Impl.StudentDaoImpl"></bean>
+    <bean id="studentService" class="org.legend.service.Impl.StudentServiceImpl">
+        <property name="studentDao" ref="studentDao"></property>
+    </bean>
 
     <!-- 课程6：
                AOP:
