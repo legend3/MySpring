@@ -9,7 +9,7 @@ import java.util.Arrays;
 /**
  * AOP注解实现方式
  */
-@Component("logAspectAnnotation")
+@Component("logAspectAnnotation")//放入容器
 @Aspect//声明该类时一个通知
 public class LogAspectAnnotation {
     //前置通知

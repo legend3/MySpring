@@ -27,8 +27,8 @@ public class StudentServiceImpl implements IStudentService {
         this.studentDao = studentDao;
     }
     /**
+     * 事务：(适合操作数据库场景！)一个方法(接口)可能有多个对数据库的操作，如果其中一个操作失败了，则定义整个事务失败(之前的成功操作全部取消！)
      * --课程五
-     * 事务：一个方法(接口)可能有多个对数据库的操作，如果其中一个操作失败了，则定义整个事务失败(之前的成功操作全部取消！)
      * 声明事务:声明后，保证addsStudent方法要么全成功，要么全失败
      * readOnly: 只读，= false完全能增删改查操作
      * REQUIRED 是常用的事务传播行为，如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中

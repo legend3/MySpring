@@ -12,7 +12,6 @@ public class LogBefore implements MethodBeforeAdvice {//继承前置通知接口
     //前置通知
     @Override
     public void before(Method method, Object[] objects, Object o) throws Throwable {
-        System.out.println("*****前置通知*******");
+        System.out.println("*****前置通知*******\n" + "前置的目标对象: " + objects + "\n前置的目标对象的方法: " + method);
     }
 }
-

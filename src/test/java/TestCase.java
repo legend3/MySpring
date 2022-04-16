@@ -8,6 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.testng.annotations.Test;
 
 public class TestCase {
+    ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
     @Test
      public void springIoc() {
         /**
@@ -20,7 +21,7 @@ public class TestCase {
 //        System.out.println(student);
 
         //创建spring容器，并加载配置文件
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
         //通过容器创建对象
         Student student = (Student) context.getBean("student");
         //访问对象

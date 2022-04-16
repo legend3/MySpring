@@ -16,7 +16,6 @@
        https://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/cache
        http://www.springframework.org/schema/cache/spring-cache.xsd"
-
 >
 <!--放上面头内default-autowire="constructor"-->
 
@@ -44,7 +43,7 @@
     <bean id="student" class="org.legend.entity.Student">
         <property name="stuNo" value="10"></property>
         <property name="stuName" value="legend"></property>
-        <property name="stuAge" value="34"></property>
+        <property name="stuAge" value="36"></property>
     </bean>
 <!--    注意：区分大小写-->
 <!--    <bean id="javaCourse" class="org.legend.newInstance.JavaCourse"></bean>-->
@@ -318,11 +317,12 @@
         <property name="maxIdle" value="6"/>
         <property name="maxConnLifetimeMillis" value="60000"/>
     </bean>
-    <!-- 配置数据库相关-事务 testAnnotationBean(): 无需@Repository("studentDao"),普通股的扫描bean-->
-    <bean id="studentDao" class="org.legend.dao.Impl.StudentDaoImpl"></bean>
-    <bean id="studentService" class="org.legend.service.Impl.StudentServiceImpl">
-        <property name="studentDao" ref="studentDao"></property>
-    </bean>
+    <!-- 配置数据库相关-事务
+    testAnnotationBean()、testAnnotationProperty(): 无需@Repository("studentDao"),普通股的扫描bean-->
+<!--    <bean id="studentDao" class="org.legend.dao.Impl.StudentDaoImpl"></bean>-->
+<!--    <bean id="studentService" class="org.legend.service.Impl.StudentServiceImpl">-->
+<!--        <property name="studentDao" ref="studentDao"></property>-->
+<!--    </bean>-->
 
     <!-- 课程6：
                AOP:
@@ -335,39 +335,45 @@
 
     <!-- “前置通知”类 （扫描）-->
     <!-- =========连接线的一方========= -->
-<!--    <context:component-scan base-package="org.legend.aop,org.legend.service.Impl,org.legend.dao.Impl"/>-->
+    <context:component-scan base-package="org.legend.aop, org.legend.service.Impl, org.legend.dao.Impl"/>
 
     <!-- 一、实现接口方式   -->
     <!-- 将addStudent()和通知 进行关联 -->
 <!--    <aop:config>-->
-        <!-- 配置切入点  （在哪里执行通知 ） -->
-        <!-- =========连接线的另一方========= -->
-        <!--
-             1、execution(): 表达式主体 (必须加上execution)。
-             2、第一个*号：表示返回值类型，*号表示所有的类型。
-             3、包名：表示需要拦截的包名，后面的两个句点表示当前包和当前包的所有子包，cn.smd.service.impl包、子孙包下所有类的方法。
-             4、第二个*号：表示类名，*号表示所有的类。
-             5、*(..):最后这个星号表示方法名，*号表示所有的方法，后面括弧里面表示方法的参数，两个句点表示任何参数。
-             -->
+<!--        &lt;!&ndash; 配置切入点  （在哪里执行通知 ） &ndash;&gt;-->
+<!--        &lt;!&ndash; =========连接线的另一方========= &ndash;&gt;-->
+<!--        &lt;!&ndash;-->
+<!--             1、execution(): 表达式主体 (必须加上execution)。-->
+<!--             2、第一个*号：表示返回值类型，*号表示所有的类型。-->
+<!--             3、包名：表示需要拦截的包名，后面的两个句点表示当前包和当前包的所有子包，cn.smd.service.impl包、子孙包下所有类的方法。-->
+<!--             4、第二个*号：表示类名，*号表示所有的类。-->
+<!--             5、*(..):最后这个星号表示方法名，*号表示所有的方法，后面括弧里面表示方法的参数，两个句点表示任何参数。-->
+<!--             &ndash;&gt;-->
 <!--        <aop:pointcut id="pointcut" expression="execution(public String org.legend.service.Impl.StudentServiceImpl.deleteStudentByName(String)) or execution(public void org.legend.service.Impl.StudentServiceImpl.addStudent(..))"/>-->
-<!--  其他情况      -->
-        <!--   org.lanqiao.service.IStudentService包中，包含的所有方法（不包含子包中的方法）     -->
-<!--        <aop:pointcut id="pointcut" expression="execution(* org.legend.service.*.*(..))"/>-->
-        <!--   org.lanqiao.service.IStudentService包中，包含的所有方法（包含子包中的方法）     -->
-<!--        <aop:pointcut id="pointcut" expression="execution(public void org.legend.service..*.*(..))"/>-->
+<!--&lt;!&ndash;  其他情况      &ndash;&gt;-->
+<!--        &lt;!&ndash;   org.lanqiao.service.IStudentService包中，包含的所有方法（不包含子包中的方法）     &ndash;&gt;-->
+<!--&lt;!&ndash;        <aop:pointcut id="pointcut" expression="execution(* org.legend.service.*.*(..))"/>&ndash;&gt;-->
+<!--        &lt;!&ndash;   org.lanqiao.service.IStudentService包中，包含的所有方法（包含子包中的方法）     &ndash;&gt;-->
+<!--&lt;!&ndash;        <aop:pointcut id="pointcut" expression="execution(public void org.legend.service..*.*(..))"/>&ndash;&gt;-->
 
-        <!-- advisor:相当于连接切入点和切面的线  -->
-        <!-- =========连接线========= -->
+<!--        &lt;!&ndash; advisor:相当于连接切入点和切面的线  &ndash;&gt;-->
+<!--        &lt;!&ndash; =========连接线========= &ndash;&gt;-->
 <!--        <aop:advisor advice-ref="logBefore" pointcut-ref="pointcut"/>-->
 <!--    </aop:config>-->
+
+<!--  后置通知  -->
 <!--    <aop:config>-->
 <!--        <aop:pointcut id="pointcut2" expression="execution(public String org.legend.service.Impl.StudentServiceImpl.deleteStudentByName(String)) or execution(public void org.legend.service.Impl.StudentServiceImpl.addStudent(..))"/>-->
 <!--        <aop:advisor advice-ref="logAfter" pointcut-ref="pointcut2"/>-->
 <!--    </aop:config>-->
+
+<!--&lt;!&ndash;  异常通知  &ndash;&gt;-->
 <!--    <aop:config>-->
 <!--        <aop:pointcut id="pointcut3" expression="execution(public void org.legend.service.Impl.StudentServiceImpl.addStudent(org.legend.entity.Student))"/>-->
 <!--        <aop:advisor advice-ref="logException" pointcut-ref="pointcut3"/>-->
 <!--    </aop:config>-->
+
+<!--&lt;!&ndash;  环绕通知  &ndash;&gt;-->
 <!--    <aop:config>-->
 <!--        <aop:pointcut id="pointcut4" expression="execution(public void org.legend.service.Impl.StudentServiceImpl.addStudent(org.legend.entity.Student))"/>-->
 <!--        <aop:advisor advice-ref="logAround" pointcut-ref="pointcut4"/>-->
@@ -375,10 +381,10 @@
 
 
     <!-- 二、开启注解对AOP的支持 -->
-<!--    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>-->
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
 
-    <!--  三、schema方式  -->
+<!--    &lt;!&ndash;  三、schema方式  &ndash;&gt;-->
 <!--    <aop:config>-->
 <!--    &lt;!&ndash;   指定切点     &ndash;&gt;-->
 <!--        <aop:pointcut id="pcSchema" expression="execution(public String org.legend.service.Impl.StudentServiceImpl.deleteStudentByName(String))"/>-->
